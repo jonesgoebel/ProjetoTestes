@@ -8,7 +8,7 @@ entity sad is   -- filtro triplo (up,middle,down)
 end entity sad;
 
 architecture circuits of sad is
-variable c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31 : std_logic_vector(7 downto 0);
+signal c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31 : std_logic_vector(7 downto 0);
 	ENTITY triste IS
 		PORT(	a0,a1,a2,a3 : in  std_logic_vector(7 downto 0);   -- entradas (pixels)
   		b : in  std_logic_vector(7 downto 0);
