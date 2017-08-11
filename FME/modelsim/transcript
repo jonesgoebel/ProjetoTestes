@@ -352,3 +352,150 @@ restart
 # Loading work.f_up(circuits)
 # Loading work.f_middle(circuits)
 # Loading work.f_down(circuits)
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd failed with 2 errors.
+# 5 compiles, 1 failed with 2 errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd failed with 4 errors.
+# 5 compiles, 1 failed with 4 errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+restart
+# Loading work.lumainterpolation(arc)
+# Loading work.f_triplo(circuits)
+# Loading work.f_up(circuits)
+# Loading work.f_middle(circuits)
+# Loading work.f_down(circuits)
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd failed with 3 errors.
+# 5 compiles, 1 failed with 3 errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd failed with 3 errors.
+# 5 compiles, 1 failed with 3 errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd failed with 4 errors.
+# 5 compiles, 1 failed with 4 errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+restart
+# Loading work.lumainterpolation(arc)
+# Loading work.f_triplo(circuits)
+# Loading work.f_up(circuits)
+# Loading work.f_middle(circuits)
+# Loading work.f_down(circuits)
+run
+run
+run
+run
+run
+run
+run
+run
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+restart
+# Loading work.lumainterpolation(arc)
+# Loading work.f_triplo(circuits)
+# Loading work.f_up(circuits)
+# Loading work.f_middle(circuits)
+# Loading work.f_down(circuits)
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of F_down.vhd was successful.
+# Compile of F_middle.vhd was successful.
+# Compile of F_triplo.vhd was successful.
+# Compile of F_up.vhd was successful.
+# Compile of LumaInterpolation.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Window cannot be closed because the modal window "Quit Vsim" is still open.
+# End time: 09:42:18 on Aug 11,2017, Elapsed time: 43:34:15
+# Errors: 3, Warnings: 1

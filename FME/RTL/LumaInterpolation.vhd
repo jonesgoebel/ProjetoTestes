@@ -5,10 +5,11 @@ USE IEEE.numeric_std.all;
 
 entity LumaInterpolation is
 	port (
-		RESET: IN std_logic;
 		CLK: IN std_logic;
+		RESET: IN std_logic;		
 		A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14: IN std_logic_vector(7 downto 0);
-		SELETOR: OUT  BIT_VECTOR(1 downto 0);
+		LOAD: OUT  BIT;
+		SELETOR: INOUT  BIT_VECTOR(1 downto 0);
 		S0,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,S26,S27,S28,S29,S30,S31: OUT std_logic_vector(11 downto 0)
 	);
 end LumaInterpolation;
@@ -26,9 +27,11 @@ architecture arc of LumaInterpolation is
 	SIGNAl vert_0,vert_1,vert_2,vert_3,vert_4,vert_5,vert_6,vert_7: reg(7 downto 0);
 	
 	SIGNAl enable: STD_LOGIC:='1';
-	SIGNAl SEL: BIT_VECTOR(1 downto 0):="00";
 	
-	SIGNAL CV :STD_LOGIC_VECTOR( 1 downto 0);
+	type estados is (loading,horizontal,vertical);
+	signal estado:estados;
+	signal cont: integer range 0 to 7;
+	
 		
 	COMPONENT F_triplo IS
 		GENERIC (N : INTEGER := 8);
@@ -136,49 +139,49 @@ begin
 	regf0_1(6) <= std_logic_vector(resize(Signed(regOri_7(6)),10));
 	regf0_0(7) <= std_logic_vector(resize(Signed(regOri_7(7)),10));
 	
-	with SEL select 
+	with SELETOR select 
 		vert_7		<=	regf0_7 	when "00",
 						regf1_7		when "01",
 						regf2_7		when "10",
 						regf3_7 	when "11";
 	
-	with SEL select 
+	with SELETOR select 
 		vert_6		<=	regf0_6		when "00",
 						regf1_6		when "01",
 						regf2_6		when "10",
 						regf3_6 	when "11";
 							
-	with SEL select 
+	with SELETOR select 
 		vert_5		<=	regf0_5		when "00",
 						regf1_5		when "01",
 						regf2_5		when "10",
 						regf3_5 	when "11";
 						
-	with SEL select 
+	with SELETOR select 
 		vert_4		<=	regf0_4		when "00",
 						regf1_4		when "01",
 						regf2_4		when "10",
 						regf3_4 	when "11";
 						
-	with SEL select 
+	with SELETOR select 
 		vert_3		<=	regf0_3		when "00",
 						regf1_3		when "01",
 						regf2_3		when "10",
 						regf3_3 	when "11";
     
-	with SEL select 
+	with SELETOR select 
 		vert_2		<=	regf0_2		when "00",
 						regf1_2		when "01",
 						regf2_2		when "10",
 						regf3_2 	when "11";
     
-	with SEL select 
+	with SELETOR select 
 		vert_1		<=	regf0_1		when "00",
 						regf1_1		when "01",
 						regf2_1		when "10",
 						regf3_1 	when "11";					
 				
-	with SEL select 
+	with SELETOR select 
 		vert_0		<=	regf0_0		when "00",
 						regf1_0		when "01",
 						regf2_0		when "10",
@@ -204,9 +207,64 @@ begin
 	V7: F_triplo GENERIC MAP (10) port map(vert_0(7),vert_1(7),vert_2(7),vert_3(7),vert_4(7),vert_5(7),vert_6(7),vert_7(7), S29,S30,S31);	
 		
 	-- controle
-	
-	
-	
-	
-		
+	PROCESS (CLK,RESET)
+		BEGIN
+		IF (RESET='1') THEN
+			estado <= loading;
+			LOAD <= '0';
+			cont <= 0;
+			SELETOR <= "00";
+				
+		ELSE
+			IF (CLK'EVENT AND CLK = '1') THEN
+				
+					CASE estado IS
+					
+					
+						WHEN loading =>
+							LOAD <= '1';
+							enable<= '1';							
+							
+							IF (cont>=7) THEN
+								estado <= vertical;
+								cont<=0;
+								LOAD <= '0';
+								SELETOR <= "00";
+							ELSE
+								cont<=cont+1;
+							END IF;
+						
+						
+						WHEN vertical =>
+							LOAD <= '0';
+							enable<= '0';
+							CASE cont IS
+								WHEN 0 =>
+									SELETOR <= "00";
+								WHEN 1 =>
+									SELETOR <= "01";
+								WHEN 2 =>
+									SELETOR <= "10";
+								WHEN OTHERS  =>
+									SELETOR <= "11";
+							END CASE;
+								
+							IF(cont>=3) THEN
+								estado <= horizontal;
+								cont<=0;
+							ELSE
+								cont<=cont+1;
+							END IF;		
+								
+													
+						WHEN horizontal =>
+							LOAD <= '1';
+							enable<= '1';
+							SELETOR <= "00";							
+							estado <= vertical;
+							
+					END CASE;
+				END IF;	
+			END IF;
+		END PROCESS;	
 end arc;
