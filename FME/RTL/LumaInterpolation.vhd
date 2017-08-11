@@ -9,57 +9,78 @@ entity LumaInterpolation is
 		RESET: IN std_logic;		
 		A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14: IN std_logic_vector(7 downto 0);
 		LOAD: OUT  BIT;
-		SELETOR: INOUT  BIT_VECTOR(1 downto 0);
-		S0,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,S26,S27,S28,S29,S30,S31: OUT std_logic_vector(11 downto 0)
+		SELETOR: INOUT  BIT_VECTOR(2 downto 0);
+		S0,S1,S2,S3,S4,S5,S6,S7: OUT std_logic_vector(11 downto 0);
+		S8,S9,S10,S11,S12,S13,S14,S15: OUT std_logic_vector(11 downto 0);
+		S16,S17,S18,S19,S20,S21,S22,S23: OUT std_logic_vector(11 downto 0);
+		S24,S25,S26,S27,S28,S29,S30,S31: OUT std_logic_vector(11 downto 0);
+		S32,S33,S34,S35,S36,S37,S38,S39: OUT std_logic_vector(11 downto 0);
+		S40,S41,S42,S43,S44,S45,S46,S47: OUT std_logic_vector(11 downto 0);
+		S48,S49,S50,S51,S52,S53,S54,S55: OUT std_logic_vector(11 downto 0);
+		S56,S57,S58,S59,S60,S61,S62,S63: OUT std_logic_vector(11 downto 0)
 	);
 end LumaInterpolation;
 
 architecture arc of LumaInterpolation is
-	TYPE reg IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 9 downto 0);
-	TYPE regInt IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 7 downto 0);
+	TYPE buffer_reg IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 9 downto 0);
+	TYPE buffer_reg_orig IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 7 downto 0);
 	
-	SIGNAl regOri,regOri_0,regOri_1,regOri_2,regOri_3,regOri_4,regOri_5,regOri_6,regOri_7: regInt(7 downto 0);
-	SIGNAl regf1,regf2,regf3: reg(7 downto 0);
-	SIGNAl regf0_0,regf0_1,regf0_2,regf0_3,regf0_4,regf0_5,regf0_6,regf0_7: reg(7 downto 0);
-	SIGNAl regf1_0,regf1_1,regf1_2,regf1_3,regf1_4,regf1_5,regf1_6,regf1_7: reg(7 downto 0);
-	SIGNAl regf2_0,regf2_1,regf2_2,regf2_3,regf2_4,regf2_5,regf2_6,regf2_7: reg(7 downto 0);
-	SIGNAl regf3_0,regf3_1,regf3_2,regf3_3,regf3_4,regf3_5,regf3_6,regf3_7: reg(7 downto 0);
-	SIGNAl vert_0,vert_1,vert_2,vert_3,vert_4,vert_5,vert_6,vert_7: reg(7 downto 0);
+	SIGNAl reg_0: buffer_reg_orig(7 downto 0);
+	SIGNAl reg_1,reg_2,reg_3,reg_4,reg_5,reg_6,reg_7: buffer_reg(6 downto 0);
+	
+	
+	SIGNAl H0_0,H0_1,H0_2,H0_3,H0_4,H0_5,H0_6,H0_7: buffer_reg_orig(7 downto 0);
+	SIGNAl H1_0,H1_1,H1_2,H1_3,H1_4,H1_5,H1_6,H1_7: buffer_reg(6 downto 0);
+	SIGNAl H2_0,H2_1,H2_2,H2_3,H2_4,H2_5,H2_6,H2_7: buffer_reg(6 downto 0);
+	SIGNAl H3_0,H3_1,H3_2,H3_3,H3_4,H3_5,H3_6,H3_7: buffer_reg(6 downto 0);
+	SIGNAl H4_0,H4_1,H4_2,H4_3,H4_4,H4_5,H4_6,H4_7: buffer_reg(6 downto 0);
+	SIGNAl H5_0,H5_1,H5_2,H5_3,H5_4,H5_5,H5_6,H5_7: buffer_reg(6 downto 0);
+	SIGNAl H6_0,H6_1,H6_2,H6_3,H6_4,H6_5,H6_6,H6_7: buffer_reg(6 downto 0);
+	SIGNAl H7_0,H7_1,H7_2,H7_3,H7_4,H7_5,H7_6,H7_7: buffer_reg(6 downto 0);
+	
+	
+	
+	SIGNAl A0_0,A0_1,A0_2,A0_3,A0_4,A0_5,A0_6,A0_7: buffer_reg(7 downto 0);
+	
+	SIGNAl V_0,V_1,V_2,V_3,V_4,V_5,V_6,V_7: buffer_reg(7 downto 0);
+	
+
+	
 	
 	SIGNAl enable: STD_LOGIC:='1';
 	
 	type estados is (loading,horizontal,vertical);
 	signal estado:estados;
-	signal cont: integer range 0 to 7;
+	signal cont: integer range 0 to 15;
 	
 		
 	COMPONENT F_triplo IS
 		GENERIC (N : INTEGER := 8);
 		port (
 			a0,a1,a2,a3,a4,a5,a6,a7 : in  std_logic_vector(N-1 downto 0);
-			up, middle, down : out std_logic_vector(N+1 downto 0)
+			b0,b1,b2,b3,b4,b5,b6,b7 : out std_logic_vector(N+1 downto 0)
         );  
 	END COMPONENT;
 	
 begin
 	-- etapa responsavel por processar as amostras horizontais
-	regOri(0) <= A3;
-	regOri(1) <= A4;
-	regOri(2) <= A5;
-	regOri(3) <= A6;
-	regOri(4) <= A7;
-	regOri(5) <= A8;
-	regOri(6) <= A9;
-	regOri(7) <= A10;
+	reg_0(0) <= A3;
+	reg_0(1) <= A4;
+	reg_0(2) <= A5;
+	reg_0(3) <= A6;
+	reg_0(4) <= A7;
+	reg_0(5) <= A8;
+	reg_0(6) <= A9;
+	reg_0(7) <= A10;
 
-	H0: F_triplo GENERIC MAP (8) port map(A0, A1, A2, A3, A4, A5, A6, A7,		regf1(0),regf2(0),regf3(0));
-	H1: F_triplo GENERIC MAP (8) port map(A1, A2, A3, A4, A5, A6, A7, A8,		regf1(1),regf2(1),regf3(1));
-	H2: F_triplo GENERIC MAP (8) port map(A2, A3, A4, A5, A6, A7, A8, A9,		regf1(2),regf2(2),regf3(2));
-	H3: F_triplo GENERIC MAP (8) port map(A3, A4, A5, A6, A7, A8, A9, A10,		regf1(3),regf2(3),regf3(3));
-	H4: F_triplo GENERIC MAP (8) port map(A4, A5, A6, A7, A8, A9, A10, A11,		regf1(4),regf2(4),regf3(4));
-	H5: F_triplo GENERIC MAP (8) port map(A5, A6, A7, A8, A9, A10, A11, A12,	regf1(5),regf2(5),regf3(5));
-	H6: F_triplo GENERIC MAP (8) port map(A6, A7, A8, A9, A10, A11, A12, A13,	regf1(6),regf2(6),regf3(6));
-	H7: F_triplo GENERIC MAP (8) port map(A7, A8, A9, A10, A11, A12, A13, A14,	regf1(7),regf2(7),regf3(7));
+	--H0: F_triplo GENERIC MAP (8) port map(A0, A1, A2, A3, A4, A5, A6, A7,		reg_1(0),reg_2(0),reg_3(0),reg_4(0),reg_5(0),reg_6(0),reg_7(0));
+	--H1: F_triplo GENERIC MAP (8) port map(A1, A2, A3, A4, A5, A6, A7, A8,		reg_1(1),reg_2(1),reg_3(1),reg_4(1),reg_5(1),reg_6(1),reg_7(1));
+	--H2: F_triplo GENERIC MAP (8) port map(A2, A3, A4, A5, A6, A7, A8, A9,		reg_1(2),reg_2(2),reg_3(2),reg_4(2),reg_5(2),reg_6(2),reg_7(2));
+	--H3: F_triplo GENERIC MAP (8) port map(A3, A4, A5, A6, A7, A8, A9, A10,		reg_1(3),reg_2(3),reg_3(3),reg_4(3),reg_5(3),reg_6(3),reg_7(3));
+	--H4: F_triplo GENERIC MAP (8) port map(A4, A5, A6, A7, A8, A9, A10, A11,		reg_1(4),reg_2(4),reg_3(4),reg_4(4),reg_5(4),reg_6(4),reg_7(4));
+	--H5: F_triplo GENERIC MAP (8) port map(A5, A6, A7, A8, A9, A10, A11, A12,	reg_1(5),reg_2(5),reg_3(5),reg_4(5),reg_5(5),reg_6(5),reg_7(5));
+	--H6: F_triplo GENERIC MAP (8) port map(A6, A7, A8, A9, A10, A11, A12, A13,	reg_1(6),reg_2(6),reg_3(6),reg_4(6),reg_5(6),reg_6(6),reg_7(6));
+	--H7: F_triplo GENERIC MAP (8) port map(A7, A8, A9, A10, A11, A12, A13, A14,	reg_1(7),reg_2(7),reg_3(7),reg_4(7),reg_5(7),reg_6(7),reg_7(7));
 		
 	-- etapa responsavel por armazenar as amostras processadas pelos filtros horizontais
 		
@@ -67,144 +88,204 @@ begin
 		BEGIN
 			IF (CLK'EVENT AND CLK = '1') THEN
 				IF(enable ='1') THEN
-				regOri_0<=regOri;	
-				regOri_1<=regOri_0;
-				regOri_2<=regOri_1;
-				regOri_3<=regOri_2;
-				regOri_4<=regOri_3;
-				regOri_5<=regOri_4;
-				regOri_6<=regOri_5;
-				regOri_7<=regOri_6;				
+				--amostras inteiras posição 0
+				H0_7<=H0_6;
+				H0_6<=H0_5;
+				H0_5<=H0_4;
+				H0_4<=H0_3;
+				H0_3<=H0_2;
+				H0_2<=H0_1;
+				H0_1<=H0_0;
+				H0_0<=reg_0;
+				
+				--posição 1
+				H1_7<=H1_6;
+				H1_6<=H1_5;
+				H1_5<=H1_4;
+				H1_4<=H1_3;
+				H1_3<=H1_2;
+				H1_2<=H1_1;
+				H1_1<=H1_0;
+				H1_0<=reg_1;
+				
+				--posição 2
+				H2_7<=H2_6;
+				H2_6<=H2_5;
+				H2_5<=H2_4;
+				H2_4<=H2_3;
+				H2_3<=H2_2;
+				H2_2<=H2_1;
+				H2_1<=H2_0;
+				H2_0<=reg_2;
+				
+				--posição 3
+				H3_7<=H3_6;
+				H3_6<=H3_5;
+				H3_5<=H3_4;
+				H3_4<=H3_3;
+				H3_3<=H3_2;
+				H3_2<=H3_1;
+				H3_1<=H3_0;
+				H3_0<=reg_3;
+				
+				--posição 4
+				H4_7<=H4_6;
+				H4_6<=H4_5;
+				H4_5<=H4_4;
+				H4_4<=H4_3;
+				H4_3<=H4_2;
+				H4_2<=H4_1;
+				H4_1<=H4_0;
+				H4_0<=reg_4;
+				
+				--posição 5
+				H5_7<=H5_6;
+				H5_6<=H5_5;
+				H5_5<=H5_4;
+				H5_4<=H5_3;
+				H5_3<=H5_2;
+				H5_2<=H5_1;
+				H5_1<=H5_0;
+				H5_0<=reg_5;
+				
+				--posição 6
+				H6_7<=H6_6;
+				H6_6<=H6_5;
+				H6_5<=H6_4;
+				H6_4<=H6_3;
+				H6_3<=H6_2;
+				H6_2<=H6_1;
+				H6_1<=H6_0;
+				H6_0<=reg_6;
+				
+				--posição 7
+				H7_7<=H7_6;
+				H7_6<=H7_5;
+				H7_5<=H7_4;
+				H7_4<=H7_3;
+				H7_3<=H7_2;
+				H7_2<=H7_1;
+				H7_1<=H7_0;
+				H7_0<=reg_7;
+							
 				END IF;
 			END IF;
 	END PROCESS;
 	
-	PROCESS (CLK)
-		BEGIN
-			IF (CLK'EVENT AND CLK = '1') THEN
-				IF(enable='1') THEN
-					regf1_0<=regf1;
-					regf1_1<=regf1_0;
-					regf1_2<=regf1_1;
-					regf1_3<=regf1_2;
-					regf1_4<=regf1_3;
-					regf1_5<=regf1_4;
-					regf1_6<=regf1_5;
-					regf1_7<=regf1_6;					
-				END IF;
-			END IF;
-		END PROCESS;
-	
-	PROCESS (CLK)
-		BEGIN
-			IF (CLK'EVENT AND CLK = '1') THEN
-				IF(enable='1') THEN
-					regf2_0<=regf2;
-					regf2_1<=regf2_0;
-					regf2_2<=regf2_1;
-					regf2_3<=regf2_2;
-					regf2_4<=regf2_3;
-					regf2_5<=regf2_4;
-					regf2_6<=regf2_5;
-					regf2_7<=regf2_6;
-					
-				END IF;
-			END IF;
-		END PROCESS;
 		
-	PROCESS (CLK)
-		BEGIN
-			IF (CLK'EVENT AND CLK = '1') THEN
-				IF(enable='1') THEN
-					regf3_0<=regf3;
-					regf3_1<=regf3_0;
-					regf3_2<=regf3_1;
-					regf3_3<=regf3_2;
-					regf3_4<=regf3_3;
-					regf3_5<=regf3_4;
-					regf3_6<=regf3_5;
-					regf3_7<=regf3_6;
-					
-				END IF;
-			END IF;
-		END PROCESS;	
 	-- etapa responsavel por processar as amostras verticais
 	
-	regf0_7(0) <= std_logic_vector(resize(Signed(regOri_7(0)),10));
-	regf0_6(1) <= std_logic_vector(resize(Signed(regOri_7(1)),10));
-	regf0_5(2) <= std_logic_vector(resize(Signed(regOri_7(2)),10));
-	regf0_4(3) <= std_logic_vector(resize(Signed(regOri_7(3)),10));
-	regf0_3(4) <= std_logic_vector(resize(Signed(regOri_7(4)),10));
-	regf0_2(5) <= std_logic_vector(resize(Signed(regOri_7(5)),10));
-	regf0_1(6) <= std_logic_vector(resize(Signed(regOri_7(6)),10));
-	regf0_0(7) <= std_logic_vector(resize(Signed(regOri_7(7)),10));
+	
+	V_i:FOR i IN 0 to 7 GENERATE
+		A0_0(i) <= std_logic_vector(resize(Signed(H0_0(i)),10));
+		A0_1(i) <= std_logic_vector(resize(Signed(H0_1(i)),10));
+		A0_2(i) <= std_logic_vector(resize(Signed(H0_2(i)),10));
+		A0_3(i) <= std_logic_vector(resize(Signed(H0_3(i)),10));
+		A0_4(i) <= std_logic_vector(resize(Signed(H0_4(i)),10));
+		A0_5(i) <= std_logic_vector(resize(Signed(H0_5(i)),10));
+		A0_6(i) <= std_logic_vector(resize(Signed(H0_6(i)),10));
+		A0_7(i) <= std_logic_vector(resize(Signed(H0_7(i)),10));
+	END GENERATE;
+	
 	
 	with SELETOR select 
-		vert_7		<=	regf0_7 	when "00",
-						regf1_7		when "01",
-						regf2_7		when "10",
-						regf3_7 	when "11";
+		V_7		<=	A0_7 	when "000",
+					H1_7	when "001",
+					H2_7	when "010",
+					H3_7 	when "011",
+					H4_7 	when "100",
+					H5_7 	when "101",
+					H6_7 	when "110",
+					H7_7 	when "111";
+					
+					
+	with SELETOR select 
+		V_6		<=	A0_6 	when "000",
+					H1_6	when "001",
+					H2_6	when "010",
+					H3_6 	when "011",
+					H4_6 	when "100",
+					H5_6 	when "101",
+					H6_6 	when "110",
+					H7_6 	when "111";				
 	
 	with SELETOR select 
-		vert_6		<=	regf0_6		when "00",
-						regf1_6		when "01",
-						regf2_6		when "10",
-						regf3_6 	when "11";
-							
+		V_5		<=	A0_5 	when "000",
+					H1_5	when "001",
+					H2_5	when "010",
+					H3_5 	when "011",
+					H4_5 	when "100",
+					H5_5 	when "101",
+					H6_5 	when "110",
+					H7_5 	when "111";
+					
 	with SELETOR select 
-		vert_5		<=	regf0_5		when "00",
-						regf1_5		when "01",
-						regf2_5		when "10",
-						regf3_5 	when "11";
-						
+		V_4		<=	A0_4 	when "000",
+					H1_4	when "001",
+					H2_4	when "010",
+					H3_4 	when "011",
+					H4_4 	when "100",
+					H5_4 	when "101",
+					H6_4 	when "110",
+					H7_4 	when "111";	
+					
 	with SELETOR select 
-		vert_4		<=	regf0_4		when "00",
-						regf1_4		when "01",
-						regf2_4		when "10",
-						regf3_4 	when "11";
-						
+		V_3		<=	A0_3 	when "000",
+					H1_3	when "001",
+					H2_3	when "010",
+					H3_3 	when "011",
+					H4_3 	when "100",
+					H5_3 	when "101",
+					H6_3 	when "110",
+					H7_3 	when "111";	
+					
 	with SELETOR select 
-		vert_3		<=	regf0_3		when "00",
-						regf1_3		when "01",
-						regf2_3		when "10",
-						regf3_3 	when "11";
-    
+		V_2		<=	A0_2 	when "000",
+					H1_2	when "001",
+					H2_2	when "010",
+					H3_2 	when "011",
+					H4_2 	when "100",
+					H5_2 	when "101",
+					H6_2 	when "110",
+					H7_2 	when "111";	
+					
 	with SELETOR select 
-		vert_2		<=	regf0_2		when "00",
-						regf1_2		when "01",
-						regf2_2		when "10",
-						regf3_2 	when "11";
-    
+		V_1		<=	A0_1 	when "000",
+					H1_1	when "001",
+					H2_1	when "010",
+					H3_1 	when "011",
+					H4_1 	when "100",
+					H5_1 	when "101",
+					H6_1 	when "110",
+					H7_1 	when "111";	
+					
 	with SELETOR select 
-		vert_1		<=	regf0_1		when "00",
-						regf1_1		when "01",
-						regf2_1		when "10",
-						regf3_1 	when "11";					
-				
-	with SELETOR select 
-		vert_0		<=	regf0_0		when "00",
-						regf1_0		when "01",
-						regf2_0		when "10",
-						regf3_0 	when "11";
-
+		V_0		<=	A0_0 	when "000",
+					H1_0	when "001",
+					H2_0	when "010",
+					H3_0 	when "011",
+					H4_0 	when "100",
+					H5_0 	when "101",
+					H6_0 	when "110",
+					H7_0 	when "111";																
 	
-	S0 <=  std_logic_vector(resize(Signed(vert_0(3)),12));
-	S4 <=  std_logic_vector(resize(Signed(vert_1(3)),12));
-	S8 <=  std_logic_vector(resize(Signed(vert_2(3)),12));
-	S12 <= std_logic_vector(resize(Signed(vert_3(3)),12));
-	S16 <= std_logic_vector(resize(Signed(vert_4(3)),12));
-	S20 <= std_logic_vector(resize(Signed(vert_5(3)),12));
-	S24 <= std_logic_vector(resize(Signed(vert_6(3)),12));
-	S28 <= std_logic_vector(resize(Signed(vert_7(3)),12));
+	S0 <=  std_logic_vector(resize(Signed(V_0(3)),12));
+	S8 <=  std_logic_vector(resize(Signed(V_1(3)),12));
+	S16 <= std_logic_vector(resize(Signed(V_2(3)),12));
+	S24 <= std_logic_vector(resize(Signed(V_3(3)),12));
+	S32 <= std_logic_vector(resize(Signed(V_4(3)),12));
+	S40 <= std_logic_vector(resize(Signed(V_5(3)),12));
+	S48 <= std_logic_vector(resize(Signed(V_6(3)),12));
+	S56 <= std_logic_vector(resize(Signed(V_7(3)),12));
 	
-	V0: F_triplo GENERIC MAP (10) port map(vert_0(0),vert_1(0),vert_2(0),vert_3(0),vert_4(0),vert_5(0),vert_6(0),vert_7(0), S1,S2,S3);
-	V1: F_triplo GENERIC MAP (10) port map(vert_0(1),vert_1(1),vert_2(1),vert_3(1),vert_4(1),vert_5(1),vert_6(1),vert_7(1), S5,S6,S7);
-	V2: F_triplo GENERIC MAP (10) port map(vert_0(2),vert_1(2),vert_2(2),vert_3(2),vert_4(2),vert_5(2),vert_6(2),vert_7(2), S9,S10,S11);
-	V3: F_triplo GENERIC MAP (10) port map(vert_0(3),vert_1(3),vert_2(3),vert_3(3),vert_4(3),vert_5(3),vert_6(3),vert_7(3), S13,S14,S15);
-	V4: F_triplo GENERIC MAP (10) port map(vert_0(4),vert_1(4),vert_2(4),vert_3(4),vert_4(4),vert_5(4),vert_6(4),vert_7(4), S17,S18,S19);
-	V5: F_triplo GENERIC MAP (10) port map(vert_0(5),vert_1(5),vert_2(5),vert_3(5),vert_4(5),vert_5(5),vert_6(5),vert_7(5), S21,S22,S23);
-	V6: F_triplo GENERIC MAP (10) port map(vert_0(6),vert_1(6),vert_2(6),vert_3(6),vert_4(6),vert_5(6),vert_6(6),vert_7(6), S25,S26,S27);
-	V7: F_triplo GENERIC MAP (10) port map(vert_0(7),vert_1(7),vert_2(7),vert_3(7),vert_4(7),vert_5(7),vert_6(7),vert_7(7), S29,S30,S31);	
+	--V0: F_triplo GENERIC MAP (10) port map(V_7(0),V_6(0),V_5(0),V_4(0),V_3(0),V_2(0),V_1(0),V_0(0), S1,S2,S3,S4,S5,S6,S7);
+	--V1: F_triplo GENERIC MAP (10) port map(V_7(1),V_6(1),V_5(1),V_4(1),V_3(1),V_2(1),V_1(1),V_0(1), S9,S10,S11,S12,S13,S14,S15);
+	--V2: F_triplo GENERIC MAP (10) port map(V_7(2),V_6(2),V_5(2),V_4(2),V_3(2),V_2(2),V_1(2),V_0(2), S17,S18,S19,S20,S21,S22,S23);
+	--V3: F_triplo GENERIC MAP (10) port map(V_7(3),V_6(3),V_5(3),V_4(3),V_3(3),V_2(3),V_1(3),V_0(3), S25,S26,S27,S28,S29,S30,S31);
+	--V4: F_triplo GENERIC MAP (10) port map(V_7(4),V_6(4),V_5(4),V_4(4),V_3(4),V_2(4),V_1(4),V_0(4), S33,S34,S35,S36,S37,S38,S39);
+	--V5: F_triplo GENERIC MAP (10) port map(V_7(5),V_6(5),V_5(5),V_4(5),V_3(5),V_2(5),V_1(5),V_0(5), S41,S42,S43,S44,S45,S46,S47);
+	--V6: F_triplo GENERIC MAP (10) port map(V_7(6),V_6(6),V_5(6),V_4(6),V_3(6),V_2(6),V_1(6),V_0(6), S49,S50,S51,S52,S53,S54,S55);
+	--V7: F_triplo GENERIC MAP (10) port map(V_7(7),V_6(7),V_5(7),V_4(7),V_3(7),V_2(7),V_1(7),V_0(7), S57,S58,S59,S60,S61,S62,S63);	
 		
 	-- controle
 	PROCESS (CLK,RESET)
@@ -213,7 +294,7 @@ begin
 			estado <= loading;
 			LOAD <= '0';
 			cont <= 0;
-			SELETOR <= "00";
+			SELETOR <= "000";
 				
 		ELSE
 			IF (CLK'EVENT AND CLK = '1') THEN
@@ -229,7 +310,7 @@ begin
 								estado <= vertical;
 								cont<=0;
 								LOAD <= '0';
-								SELETOR <= "00";
+								SELETOR <= "000";
 							ELSE
 								cont<=cont+1;
 							END IF;
