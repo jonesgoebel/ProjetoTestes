@@ -18,14 +18,24 @@ architecture arc of FMELUMA is
 	TYPE reg IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 9 downto 0);
 	TYPE regInt IS ARRAY (natural range <>) OF STD_LOGIC_VECTOR( 7 downto 0);
 	
-	SIGNAl regOri,regOri_0,regOri_1,regOri_2,regOri_3,regOri_4,regOri_5,regOri_6,regOri_7: regInt(7 downto 0);
-	SIGNAl regf1,regf2,regf3: reg(7 downto 0);
-	SIGNAl regf0_0,regf0_1,regf0_2,regf0_3,regf0_4,regf0_5,regf0_6,regf0_7: reg(7 downto 0);
-	SIGNAl regf1_0,regf1_1,regf1_2,regf1_3,regf1_4,regf1_5,regf1_6,regf1_7: reg(7 downto 0);
-	SIGNAl regf2_0,regf2_1,regf2_2,regf2_3,regf2_4,regf2_5,regf2_6,regf2_7: reg(7 downto 0);
-	SIGNAl regf3_0,regf3_1,regf3_2,regf3_3,regf3_4,regf3_5,regf3_6,regf3_7: reg(7 downto 0);
-	SIGNAl vert_0,vert_1,vert_2,vert_3,vert_4,vert_5,vert_6,vert_7: reg(7 downto 0);
 	
+	
+	COMPONENT sad IS
+		port (
+		CLK: IN std_logic;
+		RESET: IN std_logic;		
+		A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14: IN std_logic_vector(7 downto 0);
+		LOAD: OUT  BIT;
+		SELETOR: INOUT  BIT_VECTOR(2 downto 0);
+		S0,S1,S2,S3,S4,S5,S6,S7: OUT std_logic_vector(11 downto 0);
+		S8,S9,S10,S11,S12,S13,S14,S15: OUT std_logic_vector(11 downto 0);
+		S16,S17,S18,S19,S20,S21,S22,S23: OUT std_logic_vector(11 downto 0);
+		S24,S25,S26,S27,S28,S29,S30,S31: OUT std_logic_vector(11 downto 0);
+		S32,S33,S34,S35,S36,S37,S38,S39: OUT std_logic_vector(11 downto 0);
+		S40,S41,S42,S43,S44,S45,S46,S47: OUT std_logic_vector(11 downto 0);
+		S48,S49,S50,S51,S52,S53,S54,S55: OUT std_logic_vector(11 downto 0);
+		S56,S57,S58,S59,S60,S61,S62,S63: OUT std_logic_vector(11 downto 0)
+	END COMPONENT;	
 		
 	COMPONENT sad IS
 			port (

@@ -321,16 +321,24 @@ begin
 							enable<= '0';
 							CASE cont IS
 								WHEN 0 =>
-									SELETOR <= "00";
+									SELETOR <= "000";
 								WHEN 1 =>
-									SELETOR <= "01";
+									SELETOR <= "001";
 								WHEN 2 =>
-									SELETOR <= "10";
+									SELETOR <= "010";
+								WHEN 3 =>
+									SELETOR <= "011";
+								WHEN 4 =>
+									SELETOR <= "100";
+								WHEN 5 =>
+									SELETOR <= "101";
+								WHEN 6 =>
+									SELETOR <= "110";				
 								WHEN OTHERS  =>
-									SELETOR <= "11";
+									SELETOR <= "111";
 							END CASE;
 								
-							IF(cont>=3) THEN
+							IF(cont>=7) THEN
 								estado <= horizontal;
 								cont<=0;
 							ELSE
@@ -341,7 +349,7 @@ begin
 						WHEN horizontal =>
 							LOAD <= '1';
 							enable<= '1';
-							SELETOR <= "00";							
+							SELETOR <= "000";							
 							estado <= vertical;
 							
 					END CASE;
