@@ -34,9 +34,9 @@ f7: triste
 f8: triste
 	PORT MAP(a28,a29,a30,a31,b7,c28,c29,c30,c31);
 
-r0<=c0+c4+c8+c12+c16+c20+c24+c28;
-r1<=c1+c5+c9+c13+c17+c21+c25+c29;
-r2<=c2+c6+c10+c14+c18+c22+c26+c30;
-r3<=c3+c7+c11+c15+c19+c23+c27+c31;
+r0<=std_logic_vector(signed(c0)+signed(c4)+signed(c8)+signed(c12)+signed(c16)+signed(c20)+signed(c24)+signed(c28));
+r1<=std_logic_vector(signed(c1)+signed(c5)+signed(c9)+signed(c13)+signed(c17)+signed(c21)+signed(c25)+signed(c29));
+r2<=std_logic_vector(signed(c2)+signed(c6)+signed(c10)+signed(c14)+signed(c18)+signed(c22)+signed(c26)+signed(c30));
+r3<=std_logic_vector(signed(c3)+signed(c7)+signed(c11)+signed(c15)+signed(c19)+signed(c23)+signed(c27)+signed(c31));
 
 end architecture circuits;  -- of sad
