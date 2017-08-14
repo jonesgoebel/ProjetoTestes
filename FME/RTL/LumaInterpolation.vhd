@@ -6,10 +6,9 @@ USE IEEE.numeric_std.all;
 entity LumaInterpolation is
 	port (
 		CLK: IN std_logic;
-		RESET: IN std_logic;		
+		ENABLE: IN std_logic;
+		SELETOR: IN  BIT_VECTOR(2 downto 0);		
 		A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14: IN std_logic_vector(7 downto 0);
-		LOAD: OUT  BIT;
-		SELETOR: INOUT  BIT_VECTOR(2 downto 0);
 		S0,S1,S2,S3,S4,S5,S6,S7: OUT std_logic_vector(11 downto 0);
 		S8,S9,S10,S11,S12,S13,S14,S15: OUT std_logic_vector(11 downto 0);
 		S16,S17,S18,S19,S20,S21,S22,S23: OUT std_logic_vector(11 downto 0);
@@ -43,16 +42,7 @@ architecture arc of LumaInterpolation is
 	SIGNAl A0_0,A0_1,A0_2,A0_3,A0_4,A0_5,A0_6,A0_7: buffer_reg(7 downto 0);
 	
 	SIGNAl V_0,V_1,V_2,V_3,V_4,V_5,V_6,V_7: buffer_reg(7 downto 0);
-	
 
-	
-	
-	SIGNAl enable: STD_LOGIC:='1';
-	
-	type estados is (loading,horizontal,vertical);
-	signal estado:estados;
-	signal cont: integer range 0 to 15;
-	
 		
 	COMPONENT F_triplo IS
 		GENERIC (N : INTEGER := 8);
@@ -87,7 +77,7 @@ begin
 	PROCESS (CLK)
 		BEGIN
 			IF (CLK'EVENT AND CLK = '1') THEN
-				IF(enable ='1') THEN
+				IF(ENABLE ='1') THEN
 				--amostras inteiras posição 0
 				H0_7<=H0_6;
 				H0_6<=H0_5;
@@ -286,74 +276,4 @@ begin
 	--V5: F_triplo GENERIC MAP (10) port map(V_7(5),V_6(5),V_5(5),V_4(5),V_3(5),V_2(5),V_1(5),V_0(5), S41,S42,S43,S44,S45,S46,S47);
 	--V6: F_triplo GENERIC MAP (10) port map(V_7(6),V_6(6),V_5(6),V_4(6),V_3(6),V_2(6),V_1(6),V_0(6), S49,S50,S51,S52,S53,S54,S55);
 	--V7: F_triplo GENERIC MAP (10) port map(V_7(7),V_6(7),V_5(7),V_4(7),V_3(7),V_2(7),V_1(7),V_0(7), S57,S58,S59,S60,S61,S62,S63);	
-		
-	-- controle
-	PROCESS (CLK,RESET)
-		BEGIN
-		IF (RESET='1') THEN
-			estado <= loading;
-			LOAD <= '0';
-			cont <= 0;
-			SELETOR <= "000";
-				
-		ELSE
-			IF (CLK'EVENT AND CLK = '1') THEN
-				
-					CASE estado IS
-					
-					
-						WHEN loading =>
-							LOAD <= '1';
-							enable<= '1';							
-							
-							IF (cont>=7) THEN
-								estado <= vertical;
-								cont<=0;
-								LOAD <= '0';
-								SELETOR <= "000";
-							ELSE
-								cont<=cont+1;
-							END IF;
-						
-						
-						WHEN vertical =>
-							LOAD <= '0';
-							enable<= '0';
-							CASE cont IS
-								WHEN 0 =>
-									SELETOR <= "000";
-								WHEN 1 =>
-									SELETOR <= "001";
-								WHEN 2 =>
-									SELETOR <= "010";
-								WHEN 3 =>
-									SELETOR <= "011";
-								WHEN 4 =>
-									SELETOR <= "100";
-								WHEN 5 =>
-									SELETOR <= "101";
-								WHEN 6 =>
-									SELETOR <= "110";				
-								WHEN OTHERS  =>
-									SELETOR <= "111";
-							END CASE;
-								
-							IF(cont>=7) THEN
-								estado <= horizontal;
-								cont<=0;
-							ELSE
-								cont<=cont+1;
-							END IF;		
-								
-													
-						WHEN horizontal =>
-							LOAD <= '1';
-							enable<= '1';
-							SELETOR <= "000";							
-							estado <= vertical;
-							
-					END CASE;
-				END IF;	
-			END IF;
-		END PROCESS;	
 end arc;
