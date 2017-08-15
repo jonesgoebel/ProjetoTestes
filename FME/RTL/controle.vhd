@@ -7,14 +7,14 @@ entity controle is
 	port (
 		CLK: IN std_logic;
 		RESET: IN std_logic;	
-		READY: IN  std_logic;
+		READY: OUT  std_logic;
 		LOAD_A: OUT  std_logic;
 		LOAD_B: OUT  std_logic;
 		ENABLE_RI: OUT  std_logic;	
 		SELETOR: OUT BIT_VECTOR(2 downto 0);
 		RESET_SAD: OUT std_logic;
 		ENABLE_SAD: OUT std_logic;
-		CAL_SAD: OUT std_logic
+		RESET_BEST_SAD: OUT std_logic
 	);
 end controle;
 
@@ -34,7 +34,8 @@ begin
 			SELETOR <= "000";
 			RESET_SAD <= '1';
 			ENABLE_SAD <= '0';
-			CAL_SAD <= '0';
+			RESET_BEST_SAD <= '1';
+			READY<='0';
 			
 			estado <= loading;
 			cont <= 0;
@@ -51,7 +52,8 @@ begin
 							SELETOR <= "000";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '0';
-							CAL_SAD <= '0';						
+							RESET_BEST_SAD <= '0';						
+							READY<='0';
 							
 							IF (cont>=6) THEN
 								estado <= horizontal;
@@ -67,7 +69,8 @@ begin
 							SELETOR <= "000";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_1;
 						
@@ -78,7 +81,8 @@ begin
 							SELETOR <= "001";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_2;	
 						
@@ -89,7 +93,8 @@ begin
 							SELETOR <= "010";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_3;
 
@@ -100,7 +105,8 @@ begin
 							SELETOR <= "011";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_4;
 							
@@ -111,7 +117,8 @@ begin
 							SELETOR <= "100";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_5;	
 						
@@ -122,7 +129,8 @@ begin
 							SELETOR <= "101";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_6;
 							
@@ -133,7 +141,8 @@ begin
 							SELETOR <= "110";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							estado <= vert_7;
 							
@@ -144,7 +153,8 @@ begin
 							SELETOR <= "111";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '1';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '0';		
+							READY<='0';
 							
 							IF (cont>=6) THEN
 								estado <= final;	
@@ -159,7 +169,8 @@ begin
 							SELETOR <= "000";
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '0';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '1';		
+							READY<='0';
 
 							cont<=cont+1;
 							estado <= vert_0;
@@ -172,10 +183,12 @@ begin
 							SELETOR <= "000";
 							RESET_SAD <= '1';
 							ENABLE_SAD <= '0';
-							CAL_SAD <= '0';		
+							RESET_BEST_SAD <= '1';		
+							READY<='1';
 		
 							estado <= loading;
 							cont<=1;
+							
 
 					END CASE;
 				END IF;	

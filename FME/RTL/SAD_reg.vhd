@@ -9,9 +9,8 @@ entity SAD_reg is
 		RESET_SAD: IN std_logic;
 		ENABLE_SAD: IN std_logic;
 		SELETOR: IN BIT_VECTOR(2 downto 0);
-		CAL_SAD: IN std_logic;	
+		RESET_BEST_SAD: IN std_logic;	
 		A0, A1, A2, A3, A4, A5, A6, A7: IN std_logic_vector(11 downto 0);
-		READY: OUT  std_logic;	
 		MVX,MVY: OUT bit_vector(2 downto 0);
 		SAD: OUT std_logic_vector(16 downto 0)
 	);
@@ -105,10 +104,6 @@ begin
 					REG_SAD(62)<="00000000000000000";	
 					REG_SAD(63)<="00000000000000000";
 					
-					VETORX <= "000";
-					VETORY <= "000";
-					BEST_SAD <= "11111111111111111";	
-				
 				ELSE
 					IF(ENABLE_SAD ='1') THEN
 						CASE SELETOR IS
@@ -185,15 +180,29 @@ begin
 							REG_SAD(55)<=SOMA_SAD(6);
 							REG_SAD(63)<=SOMA_SAD(7);	
 						END CASE;
-						VETORX <= VX;
-						VETORY <= VY;
-						BEST_SAD <= SAD_A;
-							
+						
 					END IF;
 				END IF;	
 			END IF;
 	END PROCESS;
 	
+	
+	PROCESS (CLK)
+		BEGIN
+		IF (CLK'EVENT AND CLK = '1') THEN
+			IF(RESET_BEST_SAD ='1') THEN
+				VETORX <= "000";
+				VETORY <= "000";
+				BEST_SAD <= "11111111111111111";	
+			ELSE
+				VETORX <= VX;
+				VETORY <= VY;
+				BEST_SAD <= SAD_A;
+			END IF;		
+		END IF;
+	END PROCESS;
+	
+	--------------------------------------------------------------
 	V_i:FOR i IN 0 to 7 GENERATE
 		with SELETOR select 
 			AUX_SAD(i)<=	REG_SAD(i*8) 		when "000",
@@ -242,6 +251,7 @@ begin
 	VY <= VY_6 WHEN CAL_BEST_SAD(6) < BEST_SAD ELSE VETORY;
 	
 	VX <= SELETOR WHEN CAL_BEST_SAD(6) < BEST_SAD ELSE VETORX;
+	
 	--------------------------------------------------------------------------
 	MVX <= VETORX;
 	MVY <= VETORY;

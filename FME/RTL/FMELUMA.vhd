@@ -11,7 +11,7 @@ entity FMELUMA is
 		B0, B1, B2, B3, B4, B5, B6, B7: IN std_logic_vector(7 downto 0);--AMOSTRAS ORIGINAIS PARA COMPARAÇÃO
 		LOAD_A: OUT  std_logic;
 		LOAD_B: OUT  std_logic;
-		READY_OUT: OUT  std_logic;	
+		READY: OUT  std_logic;	
 		MVX,MVY: OUT bit_vector(2 downto 0);
 		SAD: OUT std_logic_vector(16 downto 0)
 	);
@@ -30,7 +30,7 @@ architecture arc of FMELUMA is
 	
 	SIGNAL R0,R1,R2,R3,R4,R5,R6,R7: std_logic_vector(11 downto 0);
 	
-	SIGNAL READY,ENABLE_RI, RESET_SAD,ENABLE_SAD,CAL_SAD :std_logic;
+	SIGNAL ENABLE_RI, RESET_SAD,ENABLE_SAD,RESET_BEST_SAD :std_logic;
 	SIGNAL SELETOR :BIT_VECTOR(2 downto 0);
 	
 	COMPONENT LumaInterpolation IS
@@ -71,9 +71,8 @@ architecture arc of FMELUMA is
 			RESET_SAD: IN std_logic;
 			ENABLE_SAD: IN std_logic;
 			SELETOR: IN BIT_VECTOR(2 downto 0);
-			CAL_SAD: IN std_logic;	
+			RESET_BEST_SAD: IN std_logic;	
 			A0, A1, A2, A3, A4, A5, A6, A7: IN std_logic_vector(11 downto 0);
-			READY: OUT  std_logic;	
 			MVX,MVY: OUT bit_vector(2 downto 0);
 			SAD: OUT std_logic_vector(16 downto 0)
 		);
@@ -82,15 +81,15 @@ architecture arc of FMELUMA is
 	COMPONENT controle is
 		port (
 			CLK: IN std_logic;
-			RESET: IN std_logic;	
-			READY: IN  std_logic;
+			RESET: IN std_logic;
+			READY: OUT  std_logic;	
 			LOAD_A: OUT  std_logic;
 			LOAD_B: OUT  std_logic;
 			ENABLE_RI: OUT  std_logic;	
 			SELETOR: OUT BIT_VECTOR(2 downto 0);
 			RESET_SAD: OUT std_logic;
 			ENABLE_SAD: OUT std_logic;
-			CAL_SAD: OUT std_logic
+			RESET_BEST_SAD: OUT std_logic
 		);
 	END COMPONENT;
 	
@@ -107,12 +106,12 @@ begin
 					S48,S49,S50,S51,S52,S53,S54,S55,S56,S57,S58,S59,S60,S61,S62,S63,
 					B0,B1,B2,B3,B4,B5,B6,B7, R0,R1,R2,R3,R4,R5,R6,R7);
 					
-	result_sad: SAD_reg port map(CLK,RESET_SAD,ENABLE_SAD,SELETOR,CAL_SAD,
+	result_sad: SAD_reg port map(CLK,RESET_SAD,ENABLE_SAD,SELETOR,RESET_BEST_SAD,
 								R0,R1,R2,R3,R4,R5,R6,R7,
-								READY,MVX,MVY,SAD);
+								MVX,MVY,SAD);
 					
 	control: controle port map(CLK,RESET,READY,LOAD_A,LOAD_B,ENABLE_RI,SELETOR,
-									RESET_SAD,ENABLE_SAD,CAL_SAD);
+									RESET_SAD,ENABLE_SAD,RESET_BEST_SAD);
 				
 	
 end arc;
