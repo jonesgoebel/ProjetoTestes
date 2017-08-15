@@ -69,19 +69,19 @@ architecture circuits of F_sete is
 	
 BEGIN  -- circuits of F_sete
 
-f1: F1
+f1_a: F1
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_um);
-f2: F2
+f2_a: F2
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_dois);
-f3: F3
+f3_a: F3
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_tres);
-f4: F4
+f4_a: F4
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_quatro);
-f5: F5
+f5_a: F5
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_cinco);
-f6: F6
+f6_a: F6
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_seis);
-f7: F7
+f7_a: F7
 	GENERIC MAP (N) PORT MAP(a0,a1,a2,a3,a4,a5,a6,a7,aux_sete);
 	
 	aux_um1 <= std_logic_vector((Signed(aux_um(N+7 downto 5)))/2);

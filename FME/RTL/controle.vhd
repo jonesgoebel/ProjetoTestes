@@ -14,7 +14,7 @@ entity controle is
 		SELETOR: OUT BIT_VECTOR(2 downto 0);
 		RESET_SAD: OUT std_logic;
 		ENABLE_SAD: OUT std_logic;
-		CAL_SAD: OUT std_logic;	
+		CAL_SAD: OUT std_logic
 	);
 end controle;
 

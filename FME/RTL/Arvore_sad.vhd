@@ -1,8 +1,10 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
+USE IEEE.numeric_std.all;
 
-entity sad is   -- filtro triplo (up,middle,down)
-  port (	S0,S1,S2,S3,S4,S5,S6,S7: IN std_logic_vector(11 downto 0);
+entity Arvore_sad is   -- filtro triplo (up,middle,down)
+  port (	
+			S0,S1,S2,S3,S4,S5,S6,S7: IN std_logic_vector(11 downto 0);
 			S8,S9,S10,S11,S12,S13,S14,S15: IN std_logic_vector(11 downto 0);
 			S16,S17,S18,S19,S20,S21,S22,S23: IN std_logic_vector(11 downto 0);
 			S24,S25,S26,S27,S28,S29,S30,S31: IN std_logic_vector(11 downto 0);
@@ -11,24 +13,25 @@ entity sad is   -- filtro triplo (up,middle,down)
 			S48,S49,S50,S51,S52,S53,S54,S55: IN std_logic_vector(11 downto 0);
 			S56,S57,S58,S59,S60,S61,S62,S63: IN std_logic_vector(11 downto 0);
 			b0,b1,b2,b3,b4,b5,b6,b7 : in  std_logic_vector(7 downto 0);
-			r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(7 downto 0));  -- products
-end entity sad;
+			r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(11 downto 0)
+			);  -- products
+end entity Arvore_sad;
 
-architecture circuits of sad is
-signal :	C0,C1,C2,C3,C4,C5,C6,C7: std_logic_vector(7 downto 0);
-signal :	C8,C9,C10,C11,C12,C13,C14,C15: std_logic_vector(7 downto 0);
-signal :	C16,C17,C18,C19,C20,C21,C22,C23: std_logic_vector(7 downto 0);
-signal :	C24,C25,C26,C27,C28,C29,C30,C31: std_logic_vector(7 downto 0);
-signal :	C32,C33,C34,C35,C36,C37,C38,C39: std_logic_vector(7 downto 0);
-signal :	C40,C41,C42,C43,C44,C45,C46,C47: std_logic_vector(7 downto 0);
-signal :	C48,C49,C50,C51,C52,C53,C54,C55: std_logic_vector(7 downto 0);
-signal :	C56,C57,C58,C59,C60,C61,C62,C63: std_logic_vector(7 downto 0);
+architecture circuits of Arvore_sad is
+signal	C0,C1,C2,C3,C4,C5,C6,C7: std_logic_vector(11 downto 0);
+signal	C8,C9,C10,C11,C12,C13,C14,C15: std_logic_vector(11 downto 0);
+signal	C16,C17,C18,C19,C20,C21,C22,C23: std_logic_vector(11 downto 0);
+signal	C24,C25,C26,C27,C28,C29,C30,C31: std_logic_vector(11 downto 0);
+signal	C32,C33,C34,C35,C36,C37,C38,C39: std_logic_vector(11 downto 0);
+signal	C40,C41,C42,C43,C44,C45,C46,C47: std_logic_vector(11 downto 0);
+signal	C48,C49,C50,C51,C52,C53,C54,C55: std_logic_vector(11 downto 0);
+signal	C56,C57,C58,C59,C60,C61,C62,C63: std_logic_vector(11 downto 0);
 
-	ENTITY triste IS
-		PORT(	a0,a1,a2,a3,a4,a5,a6,a7 : in  std_logic_vector(7 downto 0);   -- entradas (pixels)
+	COMPONENT triste IS
+		PORT(	a0,a1,a2,a3,a4,a5,a6,a7 : in  std_logic_vector(11 downto 0);   -- entradas (pixels)
   		b : in  std_logic_vector(7 downto 0);
-        r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(7 downto 0));
-	END triste;
+        r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(11 downto 0));
+	END COMPONENT;
 	
 begin  -- circuits of sad
 

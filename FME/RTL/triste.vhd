@@ -4,9 +4,9 @@ use ieee.numeric_std.all;
 
 
 entity triste is   -- filtro bolinha middle
-  port (a0,a1,a2,a3,a4,a5,a6,a7 : in  std_logic_vector(7 downto 0);   -- entradas (pixels)
+  port (a0,a1,a2,a3,a4,a5,a6,a7 : in  std_logic_vector(11 downto 0);   -- entradas (pixels)
   		b : in  std_logic_vector(7 downto 0);
-        r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(7 downto 0));  -- product
+        r0,r1,r2,r3,r4,r5,r6,r7 : out std_logic_vector(11 downto 0));  -- product
 end entity triste;
 
 architecture circuits of triste is
