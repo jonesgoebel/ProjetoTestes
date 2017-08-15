@@ -53,7 +53,7 @@ begin
 							RESET_SAD <= '0';
 							ENABLE_SAD <= '0';
 							RESET_BEST_SAD <= '0';						
-							READY<='0';
+							--READY<='0';
 							
 							IF (cont>=6) THEN
 								estado <= horizontal;
@@ -183,7 +183,7 @@ begin
 							SELETOR <= "000";
 							RESET_SAD <= '1';
 							ENABLE_SAD <= '0';
-							RESET_BEST_SAD <= '1';		
+							RESET_BEST_SAD <= '0';		
 							READY<='1';
 		
 							estado <= loading;
