@@ -28,7 +28,7 @@ architecture arc of SAD_reg is
 	SIGNAL VY_0,VY_1,VY_2,VY_3,VY_4,VY_5,VY_6: bit_vector(2 downto 0);
 	
 	SIGNAL VX,VY: bit_vector(2 downto 0);
-	SIGNAL SAD_R: std_logic_vector(16 downto 0);
+	
 	
 	SIGNAL VETORX,VETORY: bit_vector(2 downto 0);
 	SIGNAL SAD_A: std_logic_vector(16 downto 0);
@@ -193,7 +193,7 @@ begin
 			IF(RESET_BEST_SAD ='1') THEN
 				VETORX <= "000";
 				VETORY <= "000";
-				BEST_SAD <= "11111111111111111";	
+				BEST_SAD <= "01111111111111111";	
 			ELSE
 				VETORX <= VX;
 				VETORY <= VY;
@@ -238,15 +238,15 @@ begin
 	SAD_A <= CAL_BEST_SAD(6) WHEN CAL_BEST_SAD(6) < BEST_SAD ELSE BEST_SAD;
 	
 	--------------------------------------------------------------------------
-	VY_0 <= "000" WHEN SOMA_SAD(0) < SOMA_SAD(1) ELSE "001";
-	VY_1 <= "010" WHEN SOMA_SAD(2) < SOMA_SAD(3) ELSE "011";
-	VY_2 <= "100" WHEN SOMA_SAD(4) < SOMA_SAD(5) ELSE "101";
-	VY_3 <= "110" WHEN SOMA_SAD(6) < SOMA_SAD(7) ELSE "111";
+	VY_0 <= "000" WHEN SOMA_SAD(0) <= SOMA_SAD(1) ELSE "001";
+	VY_1 <= "010" WHEN SOMA_SAD(2) <= SOMA_SAD(3) ELSE "011";
+	VY_2 <= "100" WHEN SOMA_SAD(4) <= SOMA_SAD(5) ELSE "101";
+	VY_3 <= "110" WHEN SOMA_SAD(6) <= SOMA_SAD(7) ELSE "111";
 	
-	VY_4 <= VY_0 WHEN CAL_BEST_SAD(0) < CAL_BEST_SAD(1) ELSE VY_1;
-	VY_5 <= VY_2 WHEN CAL_BEST_SAD(2) < CAL_BEST_SAD(3) ELSE VY_3;
+	VY_4 <= VY_0 WHEN CAL_BEST_SAD(0) <= CAL_BEST_SAD(1) ELSE VY_1;
+	VY_5 <= VY_2 WHEN CAL_BEST_SAD(2) <= CAL_BEST_SAD(3) ELSE VY_3;
 	
-	VY_6 <= VY_4 WHEN CAL_BEST_SAD(4) < CAL_BEST_SAD(5) ELSE VY_5;
+	VY_6 <= VY_4 WHEN CAL_BEST_SAD(4) <= CAL_BEST_SAD(5) ELSE VY_5;
 	
 	VY <= VY_6 WHEN CAL_BEST_SAD(6) < BEST_SAD ELSE VETORY;
 	

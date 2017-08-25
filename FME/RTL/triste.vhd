@@ -11,12 +11,12 @@ end entity triste;
 
 architecture circuits of triste is
 begin  -- circuits of triste
-  r0 <= std_logic_vector(abs(signed(a0)-signed(b))); 
-  r1 <= std_logic_vector(abs(signed(a1)-signed(b))); 
-  r2 <= std_logic_vector(abs(signed(a2)-signed(b)));
-  r3 <= std_logic_vector(abs(signed(a3)-signed(b)));   
-  r4 <= std_logic_vector(abs(signed(a4)-signed(b))); 
-  r5 <= std_logic_vector(abs(signed(a5)-signed(b))); 
-  r6 <= std_logic_vector(abs(signed(a6)-signed(b)));
-  r7 <= std_logic_vector(abs(signed(a7)-signed(b)));   
+  r0 <= std_logic_vector(abs(signed(a0)-signed('0'&b))); 
+  r1 <= std_logic_vector(abs(signed(a1)-signed('0'&b))); 
+  r2 <= std_logic_vector(abs(signed(a2)-signed('0'&b)));
+  r3 <= std_logic_vector(abs(signed(a3)-signed('0'&b)));   
+  r4 <= std_logic_vector(abs(signed(a4)-signed('0'&b))); 
+  r5 <= std_logic_vector(abs(signed(a5)-signed('0'&b))); 
+  r6 <= std_logic_vector(abs(signed(a6)-signed('0'&b)));
+  r7 <= std_logic_vector(abs(signed(a7)-signed('0'&b)));   
 end architecture circuits;  -- of triste

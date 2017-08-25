@@ -50,9 +50,9 @@ begin
 							LOAD_B <= '0';
 							ENABLE_RI <= '1';
 							SELETOR <= "000";
-							RESET_SAD <= '0';
+							RESET_SAD <= '1';
 							ENABLE_SAD <= '0';
-							RESET_BEST_SAD <= '0';						
+							RESET_BEST_SAD <= '1';						
 							--READY<='0';
 							
 							IF (cont>=6) THEN
@@ -156,7 +156,7 @@ begin
 							RESET_BEST_SAD <= '0';		
 							READY<='0';
 							
-							IF (cont>=6) THEN
+							IF (cont>=8) THEN
 								estado <= final;	
 							ELSE
 								estado <= horizontal;	
@@ -181,7 +181,7 @@ begin
 							LOAD_B <= '0';
 							ENABLE_RI <= '1';
 							SELETOR <= "000";
-							RESET_SAD <= '1';
+							RESET_SAD <= '0';
 							ENABLE_SAD <= '0';
 							RESET_BEST_SAD <= '0';		
 							READY<='1';
